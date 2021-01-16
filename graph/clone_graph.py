@@ -5,7 +5,7 @@ class Node:
         self.val = val
         self.neighbors = neighbors if neighbors is not None else []
 """
-
+#  DFS, Iterative
 class Solution:
     def cloneGraph(self, node: 'Node') -> 'Node':
         cache = {}
@@ -22,3 +22,26 @@ class Solution:
         if not node:
             return None
         return clone(node)
+
+
+# DFS, Recursive
+class Solution:
+    def cloneGraph(self, node: 'Node') -> 'Node':
+        if not node:
+            return None
+
+        cloned_root = Node(node.val, [])
+        cache = {node.val: cloned_root}
+
+        stack = [node]
+        while stack:
+            node = stack.pop()
+            for neigh in node.neighbors:
+                cloned_neigh = cache.get(neigh.val)
+                if cloned_neigh is None:
+                    stack.append(neigh)
+                    cloned_neigh = Node(neigh.val, [])
+                    cache[neigh.val] = cloned_neigh
+                cache[node.val].neighbors.append(cloned_neigh)
+
+        return cloned_root
