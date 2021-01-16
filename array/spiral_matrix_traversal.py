@@ -1,27 +1,22 @@
 class Solution:
     def spiralOrder(self, matrix: List[List[int]]) -> List[int]:
-        if not matrix:
-            return []
-
         path = []
-        upper_bound = 0
-        lower_bound = len(matrix) - 1
-        left_bound = 0
-        right_bound = len(matrix[0]) - 1
-        exp_size = len(matrix) * len(matrix[0])
-        while len(path) < exp_size:
-            for j in range(left_bound, right_bound + 1):
-                path.append(matrix[upper_bound][j])
-            upper_bound += 1
-            for i in range(upper_bound, lower_bound + 1):
-                path.append(matrix[i][right_bound])
-            right_bound -= 1
-            for j in range(right_bound, left_bound - 1, -1):
-                path.append(matrix[lower_bound][j])
-            lower_bound -= 1
-            print(f'{lower_bound=}')
-            for i in range(lower_bound, upper_bound - 1, -1):
-                path.append(matrix[i][left_bound])
-            left_bound += 1
-            print(f'{path=}')
+        if not matrix or not matrix[0]:
+            return path
+
+        position_offsets = ((0, 1), (1, 0), (0, -1), (-1, 0))
+        steps_left = [len(matrix[0]), len(matrix) - 1]
+
+        row = 0
+        col = -1
+        position_idx = 0
+        while steps_left[position_idx % 2] > 0:
+            offset_row, offset_col = position_offsets[position_idx]
+            for _ in range(steps_left[position_idx % 2]):
+                row += offset_row
+                col += offset_col
+                path.append(matrix[row][col])
+            steps_left[position_idx % 2] -= 1
+            position_idx = (position_idx + 1) % 4
+
         return path
