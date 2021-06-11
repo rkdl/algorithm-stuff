@@ -6,20 +6,16 @@
 #         self.right = right
 class Solution:
     def sumEvenGrandparent(self, root: TreeNode) -> int:
-        def sum_traverse(node: TreeNode, parents: Sequence[TreeNode]) -> int:
+        def sum_traverse(node, parent, grandparent) -> int:
             if not node:
                 return 0
-            
-            has_event_grandparent = len(parents) >= 2 and parents[-1].val % 2 == 0
-
-            next_parents = (node, parents[0]) if parents else (node,)
             return (
-                (node.val if has_event_grandparent else 0)
-                + sum_traverse(node.left, next_parents)
-                + sum_traverse(node.right, next_parents)
+                (node.val if grandparent is not None and grandparent.val % 2 == 0 else 0)
+                + sum_traverse(node.left, node, parent)
+                + sum_traverse(node.right, node, parent)
             )
 
-        return sum_traverse(root, tuple())
+        return sum_traverse(root, None, None)
 
 """
 let n = number of nodes in tree
