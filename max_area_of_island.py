@@ -37,6 +37,10 @@ class Solution:
 
 
 """
-Time complexity: O(N) where N = numOfRows * numOfColumns
-Memory complexity: O(maxDepth) where maxDepth = max(numOfRows, numOfColumns)
+Time complexity:
+O(N) where N = numOfRows * numOfColumns
+
+Memory complexity: 
+~~O(maxDepth) where maxDepth = max(numOfRows, numOfColumns)~~ WRONG!!!
+O(M*N)
 """
