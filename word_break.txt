@@ -1,0 +1,84 @@
+"""
+Brute force:
+check if each word from wordDict is in s (use substring)
+Time: O(n * k)
+where n = len of wordDict, k = max len of a word in wordDict
+Memory: O(1)
+
+....
+
+Probably we can use some kind of prefix tree (Trie) to perform better?
+
+...
+
+Maybe we can sort wordDict first?
+But that's going to be O(n * log n * k)
+So it's a bad idea
+
+...
+
+we can make a set from a wordDict
+Then loop over the string in a nested loop to check if it's in the set
+Time: O(m^2) where = len S
+Mem: O(max(n, m)) where n = len wordDict
+
+words_set = {"cats","dog","sand","and","cat"}
+
+s = "catsandog"
+
+c
+ca
+cat
+cats
+catsa
+catsan
+catsand
+catsando
+catsandog
+
+
+a
+at
+ats
+atsa
+atsan
+atsand
+atsando
+atsandog
+
+t
+ts
+tsa
+tsan
+tsand
+tsando
+tsandog
+
+s
+sa
+san
+sand
+sando
+sandog
+
+a
+an
+and
+ando
+andog
+
+n
+nd
+ndo
+ndog
+
+d
+do
+dog
+
+o
+og
+
+g
+
+"""
