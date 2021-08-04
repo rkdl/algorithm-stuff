@@ -33,6 +33,27 @@ HMMM
 
 """
 
+######################################################
+# SIMPLEST SOLUTION EVER
+# O(N) Runtime, O(N) Memory
+
+class Solution:
+    def rotate(self, nums: List[int], k: int) -> None:
+        """
+        Do not return anything, modify nums in-place instead.
+        """                
+        n = len(nums)
+        k %= n
+        for i, num in enumerate(nums.copy()):
+            nums[(i + k) % n] = num
+
+
+
+
+######################################################
+# ROTATE THE ARRAY (kind of optimal)
+# O(N) Runtime, O(1) Space
+
 def reverse(nums: list, from_: int, to: int) -> None:
     for i in range((to - from_ + 1) // 2):
         l = i + from_
