@@ -79,18 +79,12 @@ If we have two pairs with two numbers -> imperfect
 """
 
 
-def check_perfect_tree(adjacency_list: list[list[int]]) -> bool:
-    root_idx = None
-    for idx, entry in enumerate(adjacency_list):
-        if len(entry) == 2:
-            if root_idx is not None:
-                return False
-            root_idx = idx
-    
-    if root_idx is None:
-        return False
+from tabnanny import check
 
-    def traverse(root_index: int, prev_index: int) -> bool:
+
+def check_perfect_tree(adjacency_list: list[list[int]]) -> bool:
+
+    def check_perfect_subtree(root_index: int, prev_index: int) -> bool:
         children = [n for n in adjacency_list[root_index] if n != prev_index]
         
         if len(children) == 0:
@@ -98,13 +92,17 @@ def check_perfect_tree(adjacency_list: list[list[int]]) -> bool:
         if len(children) == 1:
             return -1
         
-        d1 = traverse(children[0], root_index)
-        d2 = traverse(children[1], root_index)
+        d1 = check_perfect_subtree(children[0], root_index)
+        d2 = check_perfect_subtree(children[1], root_index)
         if d1 != d2:
             return -1
         return d1
 
-    return traverse(root_idx, -1) != -1
+    for root_candidate in range(len(adjacency_list)):
+        if len(adjacency_list[root_candidate]) == 2 and check_perfect_subtree(root_candidate, -1) != -1:
+            return True
+
+    return False
 
 print(check_perfect_tree([[3, 4, 6], [2], [1, 5, 6], [0], [0], [2], [2, 0]]))
 adj_list = [[3, 4, 5], [2], [1, 5], [0], [0], [2, 0]]
