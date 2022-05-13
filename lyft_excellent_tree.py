@@ -80,14 +80,6 @@ If we have two pairs with two numbers -> imperfect
 
 
 def check_perfect_tree(adjacency_list: list[list[int]]) -> bool:
-    """
-             6
-           /   \
-         2      0
-        / \    / \
-       1   5  3   4
-    [[3, 4, 6], [2], [1, 5, 6], [0], [0], [2], [2, 0]]
-    """
     root_idx = None
     for idx, entry in enumerate(adjacency_list):
         if len(entry) == 2:
@@ -98,39 +90,21 @@ def check_perfect_tree(adjacency_list: list[list[int]]) -> bool:
     if root_idx is None:
         return False
 
-
-    # root_idx = 6
-
-    def traverse(root_index: int, prev_index: int) -> int:
-        # root_idx = 2 prev_index = 6
-        neighbors = adjacency_list[root_index]  # [1, 5, 6]
-                                                # root_idx = 1 prev = 2
-
-        if len(neighbors) == 1 and neighbors[0] == prev_index:
-            return 0
-
-        common_depth = -1
-
-        for neighbor in neighbors:
-            if neighbor == prev_index:
-                continue
-            
-            res = traverse(neighbor, root_index)
-            if res == -1:
-                return -1
-            depth = 1 + traverse(neighbor, root_index)
-
-            if common_depth == -1:
-                common_depth = depth
-            elif common_depth != depth:
-                return -1
+    def traverse(root_index: int, prev_index: int) -> bool:
+        children = [n for n in adjacency_list[root_index] if n != prev_index]
         
-        return common_depth
-    
-    root = adjacency_list[root_idx]
+        if len(children) == 0:
+            return 0
+        if len(children) == 1:
+            return -1
+        
+        d1 = traverse(children[0], root_index)
+        d2 = traverse(children[1], root_index)
+        if d1 != d2:
+            return -1
+        return d1
 
-    return traverse(root[0], root_idx) == traverse(root[1], root_idx)
-
+    return traverse(root_idx, -1) != -1
 
 print(check_perfect_tree([[3, 4, 6], [2], [1, 5, 6], [0], [0], [2], [2, 0]]))
 adj_list = [[3, 4, 5], [2], [1, 5], [0], [0], [2, 0]]
